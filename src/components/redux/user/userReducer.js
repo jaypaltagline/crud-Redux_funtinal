@@ -1,4 +1,4 @@
-import { ONCHANGE, SUBMIT, USERS_LIST, DELETE, EDIT, UPDATE,RESET} from './constant'
+import { ONCHANGE, SUBMIT, USERS_LIST, DELETE, EDIT, UPDATE, RESET } from './constant'
 const initialState = {
 
     userList: [],
@@ -43,11 +43,11 @@ const initialState = {
         }
     },
     status: false,
-    editHardReset:false
+    editHardReset: false
 }
 const UserReducer = (state = initialState, action) => {
-   
-   
+
+
     switch (action.type) {
         case ONCHANGE:
             const { name, value } = action.payload;
@@ -62,76 +62,81 @@ const UserReducer = (state = initialState, action) => {
                 ...state
             }
         case RESET:
-                const clean1 = () => {
-                    return (
-                        login2.username.value = '',
-                        login2.email.value = '',
-                        login2.password.value = '',
-                        login2.conformPassword.value = ''
-                    )
-                }
-                const login2 = { ...state.login }      
-                clean1();
-            localStorage.setItem('editHardReset',state.editHardReset = false);
-                return{
+            const login2 = { ...state.login }
+
+            const clean1 = () => {
+                return (
+                    login2.username.value = '',
+                    login2.email.value = '',
+                    login2.password.value = '',
+                    login2.conformPassword.value = ''
+                )
+            }
+
+            localStorage.setItem('editHardReset', state.editHardReset = false);
+            clean1();
+            return {
                 ...state,
             }
         case DELETE:
             const u = [...state.userList]
             u.splice(action.payload, 1)
-            localStorage.setItem('userLists',JSON.stringify(u))
+            localStorage.setItem('userLists', JSON.stringify(u))
             return {
                 ...state,
                 userList: u
             }
         case UPDATE:
-                const login3 = {...state.login}
-                const cleanUpdate = () => {
-                    return (
-                        login3.username.value = '',
-                        login3.email.value = '',
-                        login3.password.value = '',
-                        login3.conformPassword.value = ''
-                    )
-                } 
-               let duplicateUserData = state.userList.slice();
-                let cloneUserIndex = duplicateUserData.find(({id}) => id === login3.id.value)
-                 cloneUserIndex = [
-                    
-                    {
-                        id:login3.id.value,
-                        username: login3.username.value,
-                        email: login3.email.value,
-                        password: login3.password.value,
-                    }
-                ]
-                localStorage.setItem('userLists',JSON.stringify(cloneUserIndex))
-                cleanUpdate();
-                return {
-                    ...state,
-                    userList:cloneUserIndex
+            const login3 = { ...state.login }
+            const cleanUpdate = () => {
+                return (
+                    login3.username.value = '',
+                    login3.email.value = '',
+                    login3.password.value = '',
+                    login3.conformPassword.value = ''
+                )
+            }
+            let duplicateUserData = state.userList.slice();
+            let cloneUserIndex = duplicateUserData.find(({ id }) => id === login3.id.value)
+            cloneUserIndex = [
+
+                {
+                    id: login3.id.value,
+                    username: login3.username.value,
+                    email: login3.email.value,
+                    password: login3.password.value,
                 }
+            ]
+            localStorage.setItem('userLists', JSON.stringify(cloneUserIndex))
+            state.status = false;
+            cleanUpdate();
+            return {
+                ...state,
+                userList: cloneUserIndex
+            }
         case EDIT:
-             localStorage.setItem('editHardReset',state.editHardReset = true)
+            localStorage.setItem('editHardReset', state.editHardReset = true)
+            const login33 = JSON.parse(localStorage.getItem('userLists'))
+            state.userList = login33
             let login1 = { ...state.login };
             state.status = true;
             const copyUser = state.userList[action.payload];
             login1 = {
                 ...state.login,
-                id:{...state.login.id , value:copyUser.id},
+                id: { ...state.login.id, value: copyUser.id },
                 username: { ...state.login.username, value: copyUser.username },
                 email: { ...state.login.email, value: copyUser.email },
                 password: { ...state.login.password, value: copyUser.password },
                 conformPassword: { ...state.login.conformPassword, value: copyUser.password }
             }
-            localStorage.setItem('editDatas',JSON.stringify(login1))
+            localStorage.setItem('editDatas', JSON.stringify(login1))
             return {
                 ...state,
-                login:login1
+                login: login1
             }
         case SUBMIT:
-            
-           const clean = () => {
+
+            const clean = () => {
                 return (
                     login.username.value = '',
                     login.email.value = '',
@@ -139,7 +144,7 @@ const UserReducer = (state = initialState, action) => {
                     login.conformPassword.value = ''
                 )
             }
-            const login  = { ...state.login }
+            const login = { ...state.login }
             let userList = state.userList.slice()
             console.log('object', userList)
             const emails = userList.find(({ email }) => email === login.email.value)
@@ -155,7 +160,7 @@ const UserReducer = (state = initialState, action) => {
                         password: login.password.value,
                     }
                 ]
-                localStorage.setItem('userLists',JSON.stringify(userList))
+                localStorage.setItem('userLists', JSON.stringify(userList))
                 clean();
             }
             else {

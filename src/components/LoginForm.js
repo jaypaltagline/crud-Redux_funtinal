@@ -8,8 +8,6 @@ import { edit } from './redux/user/userAction';
 import { update } from './redux/user/userAction';
 import { reset } from './redux/user/userAction';
 
-
-
 export default function LoginForm() {
 
     const users = useSelector(state => state.Users.userList)
@@ -17,10 +15,8 @@ export default function LoginForm() {
     const updates = useSelector(state => state.Users.status)
 
     const userDataList = JSON.parse(localStorage.getItem('userLists'))
-    console.log('object localdata', userDataList)
+
     const userEditsList = JSON.parse(localStorage.getItem('editDatas'))
-
-
     const dispatch = useDispatch()
     const handleChange = (e) => {
         dispatch(onChange({ name: e.target.name, value: e.target.value }))
@@ -112,6 +108,16 @@ export default function LoginForm() {
         dispatch(remove(index))
 
     }
+    const submitButtons = <button type='button' onClick={OnSubmit}>Submit</button>
+    const updateButtons = <button type='button' onClick={(index) => OnUpdate(index)}>update</button>
+    const Buttons = () => {
+        if (!updates) {
+            return submitButtons
+        } else {
+            return updateButtons
+        }
+    }
+
 
     const UserDAta = Object.values(login).map(({ label, type, value, error, showError }, index) => {
         const name = Object.keys(login)[index]
@@ -130,10 +136,11 @@ export default function LoginForm() {
             {UserDAta}
 
             <br />
-
+            {/* 
             <button type='button' onClick={OnSubmit}>Submit</button>
             |
-            <button type='button' onClick={(index) => OnUpdate(index)}>update</button>
+            <button type='button' onClick={(index) => OnUpdate(index)}>update</button> */}
+            {Buttons()}
             |
             <button type='button' onClick={OnReset}>Reset</button>
 
@@ -157,7 +164,7 @@ export default function LoginForm() {
                         </thead>
                         <tbody>
                             {
-                                userDataList.length > 0 && userDataList.map((user, index) => {
+                                userDataList.length >0 && userDataList.map((user, index) => {
 
                                     return <tr key={index}>
 
