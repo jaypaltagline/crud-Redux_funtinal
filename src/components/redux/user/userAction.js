@@ -110,7 +110,7 @@ export const userListData = () => {
     }
 }
 
-export const remove = (payload) => {
+export const remove = (payload , history) => {
 
     return (dispatch, getState) => {
         const userList = getState()
@@ -118,7 +118,7 @@ export const remove = (payload) => {
 
         userDatas.splice(payload, 1)
         localStorage.setItem('userLists', JSON.stringify(userDatas))
-
+        history.push('/')
         dispatch({
             type: DELETE,
             payload: userDatas

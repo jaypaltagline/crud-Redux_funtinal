@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom';
 
 export default function LoginForm(props) {
 
-    const usersS = useSelector(state => state.Users.userList)
+    //const usersS = useSelector(state => state.Users.userList)
     let userDataList = JSON.parse(localStorage.getItem('userLists'))
     let users = useSelector(state => state.Users.userList = userDataList)
     const login = useSelector(state => state.Users.loginForm)
@@ -118,7 +118,7 @@ export default function LoginForm(props) {
     );
     const OnDelete = (index) => {
 
-        dispatch(remove(index))
+        dispatch(remove(index , history))
 
     }
     const OnAdd = () => {
