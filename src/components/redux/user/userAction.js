@@ -11,8 +11,6 @@ export const reset = () => {
         let userDatas = userList.Users.loginForm
 
         userDatas = {
-
-            
             username: { ...userList.Users.loginForm.username, value: '' },
             email: { ...userList.Users.loginForm.email, value: '' },
             password: { ...userList.Users.loginForm.password, value: '' },
@@ -26,7 +24,7 @@ export const reset = () => {
 
     }
 }
-export const submit = (payload, history) => {
+export const submit = (payload,history) => {
     return (dispatch, getState) => {
 
         const userSubmitList = getState()
@@ -53,10 +51,27 @@ export const submit = (payload, history) => {
                 alert('please first fill all form information')
                 return;
             }
+            if(login.username.value !== '' && login.email.value === '' && login.password.value === '' &&login.conformPassword.value === ''){
+                alert('please enter email,password and conform_password')
+                return;
+            }
+            if (login.email.showError && login.username.value === '' ) {
+                alert('please insert username and  valid email')
+                return;
+            }
+            
+            if(login.username.value !== '' && login.email.value !== '' && login.password.value === '' &&login.conformPassword.value === ''){
+                alert('please enter password and conform_password')
+                return;
+            }
+            if (emails && login.username.value === '' ) {
+                alert('please enter username and email already exist please enter different email')
+                return;
+            }
             if (emails) {
                 alert('email already exist please enter different email')
             }
-            if (login.password.value === !login.conformPassword.value) {
+            if (!login.password.value === login.conformPassword.value) {
                 alert('password not match , please insert same password')
             }
             if (login.email.showError) {
@@ -69,6 +84,9 @@ export const submit = (payload, history) => {
             }
             if (login.password.value === '') {
                 alert('please insert password')
+            }
+            if (login.conformPassword.value === '') {
+                alert('please insert Conform Password')
             }
             return;
         }

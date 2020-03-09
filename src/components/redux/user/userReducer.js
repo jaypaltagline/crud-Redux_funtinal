@@ -1,16 +1,13 @@
 import { ONCHANGE, SUBMIT, USERS_LIST, DELETE, EDIT, UPDATE, RESET } from './constant'
-
-
 const initialState = {
-
-    userList: [],
+ userList: [],
     loginForm: {
        username: {
             name: 'username',
             label: 'username:',
             type: 'text',
             value: '',
-            error: 'enter username',
+            error: 'only string character allow',
             showError: false
         },
         email: {
@@ -26,7 +23,7 @@ const initialState = {
             label: 'Password:',
             type: 'Password',
             value: '',
-            error: 'enter password',
+            error: 'only character and number allow',
             showError: false
         },
         conformPassword: {
@@ -42,9 +39,7 @@ const initialState = {
     editHardReset: false
 }
 const UserReducer = (state = initialState, action) => {
-
-
-    switch (action.type) {
+ switch (action.type) {
         case ONCHANGE:
             const { name, value } = action.payload;
             const loginClone = { ...state.loginForm }
@@ -132,9 +127,7 @@ const UserReducer = (state = initialState, action) => {
                     }
                 }
             }
-
-
-        default:
+            default:
             return state;
     }
 }

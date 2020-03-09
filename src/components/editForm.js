@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Logininput from './resuablecomponent.js/inputform';
 import { useSelector, useDispatch } from 'react-redux'
 import { onChange } from './redux/user/userAction';
-
 import { edit } from './redux/user/userAction';
 import { update } from './redux/user/userAction';
 import { reset } from './redux/user/userAction';
@@ -19,15 +18,6 @@ export default function EditForm(props) {
         if (id !== undefined) {
             dispatch(edit({ id, history, isId: true }))
         }
-        // if (window.performance) {
-        //     if (performance.navigation.type === 1) {
-        //       return  dispatch(edit({ id, history, isId: true }))
-        //       alert( "This page is reloaded" );
-        //     } else {
-        //       alert( "This page is not reloaded");
-        //     }
-        //   }
-
     }, [id])
 
     const handleChange = (e) => {
@@ -94,21 +84,16 @@ export default function EditForm(props) {
     const OnReset = () => {
         dispatch(reset())
     }
-
-
     const emailValidation = value => (
         (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)
     );
 
     const UserValidation = value => (
         (/[a-zA-Z]/).test(value)
-
-
     );
 
     const PasswordValidation = value => (
         (/[a-zA-Z0-9]/).test(value.length < 0)
-
     );
 const UserDAta = Object.values(login).map(({ label, type, value, error, showError }, index) => {
         const name = Object.keys(login)[index]
@@ -124,16 +109,12 @@ const UserDAta = Object.values(login).map(({ label, type, value, error, showErro
         <div>
             <h2>Redux Edit Form</h2>
             {UserDAta}
-
             <br />
-
             <button type='button' onClick={() => OnUpdate(id)}>update</button>
             |
             <button type='button' onClick={OnReset}>Reset</button>
             |
             <button type='button' onClick={OnCancel}>Cancel</button>
-            
-
         </div>
     )
 }

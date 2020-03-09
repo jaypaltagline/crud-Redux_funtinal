@@ -1,27 +1,18 @@
 import React, { useEffect } from 'react'
-//import Logininput from './resuablecomponent.js/inputform';
 import { useSelector, useDispatch } from 'react-redux'
 import { onChange } from './redux/user/userAction';
-//import { submit } from './redux/user/userAction';
 import { remove } from './redux/user/userAction';
 import { edit } from './redux/user/userAction';
-//import { update } from './redux/user/userAction';
-//import { reset } from './redux/user/userAction';
 import { useHistory } from 'react-router-dom';
-
-
 export default function LoginForm(props) {
 
-    //const usersS = useSelector(state => state.Users.userList)
     let userDataList = JSON.parse(localStorage.getItem('userLists'))
     let users = useSelector(state => state.Users.userList = userDataList)
     const login = useSelector(state => state.Users.loginForm)
-    //const updates = useSelector(state => state.Users.status)
+
     const history = useHistory();
     const dispatch = useDispatch()
     const id = props.match.params.id
-
-    //const userEditsList = JSON.parse(localStorage.getItem('editDatas'))
 
     useEffect(() => {
 
@@ -86,22 +77,11 @@ export default function LoginForm(props) {
         login.password.showError = false
     }
 
-    //     const OnSubmit = (e) => {
-    //         dispatch(submit(e))
-    // }
     const OnEdit = (id) => {
         history.push(`/edit/${id}`)
         dispatch(edit({ id, history, isId: true }))
 
     }
-    // const OnUpdate = (index) => {
-    //     dispatch(update(index))
-    // }
-    // const OnReset = () => {
-    //     dispatch(reset())
-    // }
-
-
     const emailValidation = value => (
         (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)
     );
@@ -109,9 +89,7 @@ export default function LoginForm(props) {
     const UserValidation = value => (
         (/[a-zA-Z]/).test(value)
 
-
     );
-
     const PasswordValidation = value => (
         (/[a-zA-Z0-9]/).test(value.length < 0)
 
@@ -124,20 +102,12 @@ export default function LoginForm(props) {
     const OnAdd = () => {
         history.push('/add')
     }
-
-    return (
+        return (
         <div>
             <h2>Redux Crud Demo Using Dynamic Form and Validation</h2>
-            {/* {UserDAta} */}
-
             <br />
 
             <button type='button' onClick={OnAdd}>Add</button>
-
-
-
-
-
             <hr />
             <React.Fragment>
                 <h2>UserList</h2>
