@@ -84,9 +84,13 @@ export default function EditForm(props) {
         login.password.showError = false
     }
 
-    const OnUpdate = (index) => {
-        dispatch(update(index,history))
+    const OnUpdate = (id) => {
+        dispatch(update({id,history}))
     }
+    const OnCancel = () => {
+        history.push('/')
+    }
+
     const OnReset = () => {
         dispatch(reset())
     }
@@ -123,9 +127,12 @@ const UserDAta = Object.values(login).map(({ label, type, value, error, showErro
 
             <br />
 
-            <button type='button' onClick={(index) => OnUpdate(index)}>update</button>
+            <button type='button' onClick={() => OnUpdate(id)}>update</button>
             |
             <button type='button' onClick={OnReset}>Reset</button>
+            |
+            <button type='button' onClick={OnCancel}>Cancel</button>
+            
 
         </div>
     )

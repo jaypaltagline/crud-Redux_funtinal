@@ -5,12 +5,7 @@ const initialState = {
 
     userList: [],
     loginForm: {
-        id: {
-            name: 'id',
-            type: 'hidden',
-            value: ''
-        },
-        username: {
+       username: {
             name: 'username',
             label: 'username:',
             type: 'text',
@@ -83,7 +78,7 @@ const UserReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                userList:action.payload,
+                userList: action.payload,
                 s,
                 loginForm: {
                     username: {

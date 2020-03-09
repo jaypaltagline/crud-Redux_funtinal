@@ -10,14 +10,14 @@ export default function AddForm(props) {
     const history = useHistory();
     const login = useSelector(state => state.Users.loginForm)
     const updates = useSelector(state => state.Users.status)
-     const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const id = props.match.params.id
-   useEffect(() => {
-           if (id !== undefined) {
-         dispatch(edit({ id, isId: true }))
+    useEffect(() => {
+        if (id !== undefined) {
+            dispatch(edit({ id, isId: true }))
         }
-}, [id])
-const handleChange = (e) => {
+    }, [id])
+    const handleChange = (e) => {
         dispatch(onChange({ name: e.target.name, value: e.target.value }))
         if (e.target.name === 'email') {
             const validEmail = emailValidation(e.target.value);
@@ -75,7 +75,10 @@ const handleChange = (e) => {
         dispatch(submit(e, history))
 
     }
-   
+    const OnCancel = () => {
+        history.push('/')
+    }
+
     const OnReset = () => {
         dispatch(reset())
     }
@@ -93,7 +96,7 @@ const handleChange = (e) => {
         (/[a-zA-Z0-9]/).test(value.length < 0)
 
     );
-   
+
     const submitButtons = <button type='button' onClick={OnSubmit}>Submit</button>
     const Buttons = () => {
         if (!updates) {
@@ -107,7 +110,7 @@ const handleChange = (e) => {
             <div key={index}>
                 <form>
                     <Logininput  {...{ label, type, value, name, error, showError }} onChange={handleChange} />
-                 </form>
+                </form>
             </div>
         )
     })
@@ -123,7 +126,10 @@ const handleChange = (e) => {
             {Buttons()}
             |
             <button type='button' onClick={OnReset}>Reset</button>
+            |
 
-            </div>
+            <button type='button' onClick={OnCancel}>Cancel</button>
+            
+        </div>
     )
 }

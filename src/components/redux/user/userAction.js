@@ -1,7 +1,4 @@
 import { ONCHANGE, SUBMIT, USERS_LIST, DELETE, UPDATE, EDIT, RESET } from './constant'
-
-
-
 export const onChange = (payload) => {
     return {
         type: ONCHANGE,
@@ -15,7 +12,7 @@ export const reset = () => {
 
         userDatas = {
 
-            id: { ...userList.Users.loginForm.id, value: '' },
+            
             username: { ...userList.Users.loginForm.username, value: '' },
             email: { ...userList.Users.loginForm.email, value: '' },
             password: { ...userList.Users.loginForm.password, value: '' },
@@ -50,8 +47,12 @@ export const submit = (payload, history) => {
             ]
             localStorage.setItem('userLists', JSON.stringify(userSubmitData))
             history.push('/')
-    }
+        }
         else {
+            if(login.username.value === '' && login.email.value === '' && login.password.value === '' &&login.conformPassword.value === ''){
+                alert('please first fill all form information')
+                return;
+            }
             if (emails) {
                 alert('email already exist please enter different email')
             }
@@ -76,30 +77,26 @@ export const submit = (payload, history) => {
             type: SUBMIT,
             payload: userSubmitData
         })
-     }
+    }
 }
-export const update = (index,history) => {
+export const update = (payload) => {
     return (dispatch, getState) => {
         const userUpdate = getState()
         let userUpdateData = userUpdate.Users.userList
         const formUpdate = userUpdate.Users.loginForm
         let duplicateUserData = userUpdateData.slice();
-        let cloneUserIndex = duplicateUserData.find(({ id }) => id === formUpdate.id.value)
-        cloneUserIndex = [
-
-            {
-                id: formUpdate.id.value,
-                username: formUpdate.username.value,
-                email: formUpdate.email.value,
-                password: formUpdate.password.value,
-            }
-        ]
-        localStorage.setItem('userLists', JSON.stringify(cloneUserIndex))
-        history.push('/')
-
+        let cloneUserIndex = duplicateUserData.findIndex(({ id }) => id ===Number(payload.id) )
+        
+        duplicateUserData[cloneUserIndex].id=Number(payload.id)
+        duplicateUserData[cloneUserIndex].username=formUpdate.username.value
+        duplicateUserData[cloneUserIndex].email=formUpdate.email.value
+        duplicateUserData[cloneUserIndex].password=formUpdate.password.value
+        
+        localStorage.setItem('userLists', JSON.stringify(duplicateUserData))
+        payload.history.push('/')
         dispatch({
             type: UPDATE,
-            payload: cloneUserIndex,
+            payload: duplicateUserData,
         })
 
     }
@@ -147,13 +144,13 @@ export const edit = (payload) => {
         }
         login1 = {
             ...userList.Users.loginForm,
-            id: { ...userList.Users.loginForm.id, value: copyUser.id },
+           
             username: { ...userList.Users.loginForm.username, value: copyUser.username },
             email: { ...userList.Users.loginForm.email, value: copyUser.email },
             password: { ...userList.Users.loginForm.password, value: copyUser.password },
             conformPassword: { ...userList.Users.loginForm.conformPassword, value: copyUser.password }
         }
-        
+
         dispatch({
             type: EDIT,
             payload: login1
