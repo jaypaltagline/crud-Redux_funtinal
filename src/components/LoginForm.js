@@ -1,29 +1,42 @@
 import React, { useEffect } from 'react'
-import Logininput from './resuablecomponent.js/inputform';
+//import Logininput from './resuablecomponent.js/inputform';
 import { useSelector, useDispatch } from 'react-redux'
 import { onChange } from './redux/user/userAction';
-import { submit } from './redux/user/userAction';
+//import { submit } from './redux/user/userAction';
 import { remove } from './redux/user/userAction';
 import { edit } from './redux/user/userAction';
-import { update } from './redux/user/userAction';
-import { reset } from './redux/user/userAction';
+//import { update } from './redux/user/userAction';
+//import { reset } from './redux/user/userAction';
+import { useHistory } from 'react-router-dom';
 
-export default function LoginForm() {
 
-    const users = useSelector(state => state.Users.userList)
-    const login = useSelector(state => state.Users.login)
-    const updates = useSelector(state => state.Users.status)
+export default function LoginForm(props) {
 
-    const userDataList = JSON.parse(localStorage.getItem('userLists'))
-
-    const userEditsList = JSON.parse(localStorage.getItem('editDatas'))
+    const usersS = useSelector(state => state.Users.userList)
+    let userDataList = JSON.parse(localStorage.getItem('userLists'))
+    let users = useSelector(state => state.Users.userList = userDataList)
+    const login = useSelector(state => state.Users.loginForm)
+    //const updates = useSelector(state => state.Users.status)
+    const history = useHistory();
     const dispatch = useDispatch()
+    const id = props.match.params.id
+
+    //const userEditsList = JSON.parse(localStorage.getItem('editDatas'))
+
+    useEffect(() => {
+
+
+        if (id !== undefined) {
+            dispatch(edit({ id,history,isId: true }))
+        }
+
+    }, [id])
+
     const handleChange = (e) => {
         dispatch(onChange({ name: e.target.name, value: e.target.value }))
         if (e.target.name === 'email') {
             const validEmail = emailValidation(e.target.value);
-            //console.log('validEmail', validEmail);
-            //const error = 'enter correct email'
+
             if (!validEmail === true) {
                 checkErrors()
             } else {
@@ -33,8 +46,7 @@ export default function LoginForm() {
         }
         if (e.target.name === 'username') {
             const validUser = UserValidation(e.target.value);
-            // console.log('validEmail', validUser);
-            // const error = 'enter username'
+
             if (!validUser === true) {
                 checkErrorsUser()
             } else {
@@ -44,8 +56,6 @@ export default function LoginForm() {
         }
         if (e.target.name === 'password') {
             const validPassword = PasswordValidation(e.target.value);
-            // console.log('validPassword', validPassword);
-            // const error = 'enter correct email'
             if (!validPassword === true) {
                 checkErrorsPassword()
             } else {
@@ -55,6 +65,7 @@ export default function LoginForm() {
         }
 
     }
+
     const checkErrors = () => {
         login.email.showError = true
     }
@@ -75,20 +86,20 @@ export default function LoginForm() {
         login.password.showError = false
     }
 
-    const OnSubmit = (e) => {
-        dispatch(submit(e))
+    //     const OnSubmit = (e) => {
+    //         dispatch(submit(e))
+    // }
+    const OnEdit = (id) => {
+        history.push(`/edit/${id}`)
+        dispatch(edit({ id, history, isId: true }))
 
     }
-    const OnEdit = (index) => {
-
-        dispatch(edit(index))
-    }
-    const OnUpdate = (index) => {
-        dispatch(update(index))
-    }
-    const OnReset = () => {
-        dispatch(reset())
-    }
+    // const OnUpdate = (index) => {
+    //     dispatch(update(index))
+    // }
+    // const OnReset = () => {
+    //     dispatch(reset())
+    // }
 
 
     const emailValidation = value => (
@@ -98,51 +109,30 @@ export default function LoginForm() {
     const UserValidation = value => (
         (/[a-zA-Z]/).test(value)
 
+
     );
 
     const PasswordValidation = value => (
-        (/[a-zA-Z0-9]/).test(value)
+        (/[a-zA-Z0-9]/).test(value.length < 0)
+
     );
     const OnDelete = (index) => {
-        // console.log("Delete call ", index)
+
         dispatch(remove(index))
 
     }
-    const submitButtons = <button type='button' onClick={OnSubmit}>Submit</button>
-    const updateButtons = <button type='button' onClick={(index) => OnUpdate(index)}>update</button>
-    const Buttons = () => {
-        if (!updates) {
-            return submitButtons
-        } else {
-            return updateButtons
-        }
+    const OnAdd = () => {
+        history.push('/add')
     }
-
-
-    const UserDAta = Object.values(login).map(({ label, type, value, error, showError }, index) => {
-        const name = Object.keys(login)[index]
-        return (
-            <div key={index}>
-                <form>
-                    <Logininput  {...{ label, type, value, name, error, showError }} onChange={handleChange} />
-                </form>
-            </div>
-        )
-    })
 
     return (
         <div>
             <h2>Redux Crud Demo Using Dynamic Form and Validation</h2>
-            {UserDAta}
+            {/* {UserDAta} */}
 
             <br />
-            {/* 
-            <button type='button' onClick={OnSubmit}>Submit</button>
-            |
-            <button type='button' onClick={(index) => OnUpdate(index)}>update</button> */}
-            {Buttons()}
-            |
-            <button type='button' onClick={OnReset}>Reset</button>
+
+            <button type='button' onClick={OnAdd}>Add</button>
 
 
 
@@ -155,7 +145,6 @@ export default function LoginForm() {
                     <table border='solid 10px'>
                         <thead>
                             <tr>
-
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Password</th>
@@ -164,7 +153,7 @@ export default function LoginForm() {
                         </thead>
                         <tbody>
                             {
-                                userDataList.length >0 && userDataList.map((user, index) => {
+                                users.length > 0 && users.map((user, index) => {
 
                                     return <tr key={index}>
 
@@ -172,7 +161,7 @@ export default function LoginForm() {
                                         <td>{user.email}</td>
                                         <td>{user.password}</td>
                                         <td><button type='button' onClick={() => OnDelete(index)}>Delete</button>
-                                            <button type='button' onClick={() => OnEdit(index)}>Edit</button>
+                                            <button type='button' onClick={() => OnEdit(user.id)}>Edit</button>
                                         </td>
 
                                     </tr>
@@ -184,6 +173,4 @@ export default function LoginForm() {
             </React.Fragment>
         </div>
     )
-
 }
-
