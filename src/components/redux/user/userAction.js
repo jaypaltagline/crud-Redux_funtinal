@@ -19,75 +19,59 @@ export const onChange = (payload) => {
             (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/).test(value)
 
         );
-        const checkErrors = () => {
-            loginClone.email.showError = true
-        }
-        const checkErrors1 = () => {
-            loginClone.email.showError = false
-        }
-        const checkErrorsUser = () => {
-            loginClone.username.showError = true
-        }
-        const checkErrorsUser1 = () => {
-            loginClone.username.showError = false
-        }
-
-        const checkErrorsPassword = () => {
-            loginClone.password.showError = true
-        }
-        const checkErrorsPassword1 = () => {
-            loginClone.password.showError = false
-        }
-        const checkConformPassword = () => {
-            if(loginClone.conformPassword.value ===loginClone.password.value)
-            {
-                loginClone.conformPassword.showError = false
-            }
-            else{
-                loginClone.conformPassword.showError = true
-                       }
-    }
-        if (name === 'email') {
+    if (name === 'email') {
             const validEmail = emailValidation(value);
 
             if (!validEmail === true) {
-                checkErrors()
+                loginClone.email.showError = true
             } else {
-                checkErrors1()
+                loginClone.email.showError = false
             }
-
-
+     
         };
         if (name === 'username') {
             const validUser = UserValidation(value);
 
             if (!validUser === true) {
-                checkErrorsUser()
+                loginClone.username.showError = true
             } else {
-                checkErrorsUser1()
+                loginClone.username.showError = false
             }
 
         }
         if (name === 'password' ) {
             const validPassword = PasswordValidation(value);
+            console.log('validPassword', validPassword)
             if (!validPassword === true) {
-                checkErrorsPassword()
-            } else {
-                checkErrorsPassword1()
+                loginClone.password.showError = true
+            } else{
+            if(loginClone.conformPassword.value !==loginClone.password.value && loginClone.conformPassword.value !== '')
+            {
+                loginClone.conformPassword.showError = true
+            }
+            else{
+                loginClone.conformPassword.showError = false
+                }
+                loginClone.password.showError = false
             }
 
         }
         if (name === 'conformPassword' ) {
-            checkConformPassword();
+           
+            if(loginClone.conformPassword.value !==loginClone.password.value)
+            {
+                loginClone.conformPassword.showError = true
+            }
+            else{
+                loginClone.conformPassword.showError = false
+                }
         }
-
         dispatch({
             type: ONCHANGE,
             payload: loginClone
         })
 
     };
-
 }
 export const reset = () => {
     return (dispatch, getState) => {
@@ -136,50 +120,11 @@ export const submit = (payload, history) => {
                 alert('please first fill all form information')
                 return;
             }
-            // if (login.username.value !== '' && login.email.value === '' && login.password.value === '' && login.conformPassword.value === '') {
-            //     alert('please enter email,password and conform_password')
-            //     return;
-            // }
-            // if (login.email.showError && login.username.value === '') {
-            //     alert('please insert username and  valid email')
-            //     return;
-            // }
-            // if (login.email.value === '' && login.conformPassword.value === '') {
-            //     alert('please insert email and  conformPassword')
-            //     return;
-            // }
-            // if (login.username.value !== '' && login.email.value !== '' && login.password.value === '' && login.conformPassword.value === '') {
-            //     alert('please enter password and conform_password')
-            //     return;
-            // }
-
-            // if (emails && login.username.value === '' ) {
-            //     alert('please enter username and email already exist please enter different email')
-            //     return;
-            // }
             if (emails) {
                 alert('email already exist please enter different email')
                 return;
             }
-            // if (!login.password.value === login.conformPassword.value) {
-            //     alert('password not match , please insert same password')
-            // }
-            // if (login.email.showError) {
-            //     alert('please insert valid email')
-             if (login.username.value === '') {
-                alert('please insert username')
-                return;
-            }
-            if (login.email.value === '') {
-                alert('please insert email')
-                return;
-            }
-            if (login.password.value === '') {
-                alert('please insert password')
-            }
-            if (login.conformPassword.value === '') {
-                alert('please insert Conform Password')
-            }
+            
             return;
         }
 

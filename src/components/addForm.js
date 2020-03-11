@@ -6,6 +6,7 @@ import { submit } from './redux/user/userAction';
 import { edit } from './redux/user/userAction';
 import { reset } from './redux/user/userAction';
 import { useHistory } from 'react-router-dom';
+import { object } from 'prop-types';
 export default function AddForm(props) {
     const history = useHistory();
     const login = useSelector(state => state.Users.loginForm)
@@ -19,7 +20,7 @@ export default function AddForm(props) {
     }, [id])
     const handleChange = (e) => {
         dispatch(onChange({ name: e.target.name, value: e.target.value }))
-    }  
+    }
     const OnSubmit = (e) => {
         e.preventDefault()
         dispatch(submit(e, history))
@@ -32,35 +33,26 @@ export default function AddForm(props) {
     const OnReset = () => {
         dispatch(reset())
     }
-   
+
     const submitButtons = <button type='button' onClick={OnSubmit}>Submit</button>
     const Buttons = () => {
         if (!updates) {
             return submitButtons
         }
     }
-
-    const UserDAta = Object.values(login).map(({ label, type, value, error, showError }, index) => {
-        const name = Object.keys(login)[index]
-        return (
-            <div key={index}>
-                {/* <form> */}
-                <Logininput  {...{ label, type, value, name, error, showError }} onChange={handleChange} />
-                {/* </form> */}
-            </div>
-        )
+const userData = Object.values(login).map(({ value, name, label, showError, error, type}, index) => {
+ name = Object.keys(login)[index]
+        return <Logininput value={value} name={name} label={label} showError={showError} error={error} type={type} onChange={handleChange}  />
     })
-
-
     return (
         <div>
             <h2>Redux Add Form</h2>
             <form onSubmit={OnSubmit}>
-                {UserDAta}
+                {userData}
                 <br />
                 {Buttons()}
-            <button type='button' onClick={OnReset}>Reset</button>
-            <button type='button' onClick={OnCancel}>Cancel</button>
+                <button type='button' onClick={OnReset}>Reset</button>
+                <button type='button' onClick={OnCancel}>Cancel</button>
             </form>
         </div>
     )
