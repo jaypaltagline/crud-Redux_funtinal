@@ -7,9 +7,8 @@ import { useHistory } from 'react-router-dom';
 export default function LoginForm(props) {
 
     let userDataList = JSON.parse(localStorage.getItem('userLists'))
-    let users = useSelector(state => state.Users.userList = userDataList)
-    const login = useSelector(state => state.Users.loginForm)
-
+    let users = useSelector(state => state.Users.userList)
+    users  = userDataList;
     const history = useHistory();
     const dispatch = useDispatch()
     const id = props.match.params.id
@@ -25,75 +24,14 @@ export default function LoginForm(props) {
 
     const handleChange = (e) => {
         dispatch(onChange({ name: e.target.name, value: e.target.value }))
-        if (e.target.name === 'email') {
-            const validEmail = emailValidation(e.target.value);
-
-            if (!validEmail === true) {
-                checkErrors()
-            } else {
-                checkErrors1()
-            }
-
-        }
-        if (e.target.name === 'username') {
-            const validUser = UserValidation(e.target.value);
-
-            if (!validUser === true) {
-                checkErrorsUser()
-            } else {
-                checkErrorsUser1()
-            }
-
-        }
-        if (e.target.name === 'password') {
-            const validPassword = PasswordValidation(e.target.value);
-            if (!validPassword === true) {
-                checkErrorsPassword()
-            } else {
-                checkErrorsPassword1()
-            }
-
-        }
-
     }
-
-    const checkErrors = () => {
-        login.email.showError = true
-    }
-    const checkErrors1 = () => {
-        login.email.showError = false
-    }
-    const checkErrorsUser = () => {
-        login.username.showError = true
-    }
-    const checkErrorsUser1 = () => {
-        login.username.showError = false
-    }
-
-    const checkErrorsPassword = () => {
-        login.password.showError = true
-    }
-    const checkErrorsPassword1 = () => {
-        login.password.showError = false
-    }
-
-    const OnEdit = (id) => {
+    
+        const OnEdit = (id) => {
         history.push(`/edit/${id}`)
         dispatch(edit({ id, history, isId: true }))
 
     }
-    const emailValidation = value => (
-        (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)
-    );
-
-    const UserValidation = value => (
-        (/[a-zA-Z]/).test(value)
-
-    );
-    const PasswordValidation = value => (
-        (/[a-zA-Z0-9]/).test(value.length < 0)
-
-    );
+    
     const OnDelete = (index) => {
 
         dispatch(remove(index , history))
@@ -143,4 +81,4 @@ export default function LoginForm(props) {
             </React.Fragment>
         </div>
     )
-}
+};

@@ -1,8 +1,8 @@
 import { ONCHANGE, SUBMIT, USERS_LIST, DELETE, EDIT, UPDATE, RESET } from './constant'
 const initialState = {
- userList: [],
+    userList: [],
     loginForm: {
-       username: {
+        username: {
             name: 'username',
             label: 'username:',
             type: 'text',
@@ -39,14 +39,12 @@ const initialState = {
     editHardReset: false
 }
 const UserReducer = (state = initialState, action) => {
- switch (action.type) {
+    switch (action.type) {
         case ONCHANGE:
-            const { name, value } = action.payload;
-            const loginClone = { ...state.loginForm }
-            loginClone[name].value = value;
+
             return {
                 ...state,
-                loginForm: loginClone
+                loginForm: action.payload
             }
         case USERS_LIST:
             return {
@@ -127,7 +125,7 @@ const UserReducer = (state = initialState, action) => {
                     }
                 }
             }
-            default:
+        default:
             return state;
     }
 }

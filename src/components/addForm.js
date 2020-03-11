@@ -19,59 +19,9 @@ export default function AddForm(props) {
     }, [id])
     const handleChange = (e) => {
         dispatch(onChange({ name: e.target.name, value: e.target.value }))
-        if (e.target.name === 'email') {
-            const validEmail = emailValidation(e.target.value);
-
-            if (!validEmail === true) {
-                checkErrors()
-            } else {
-                checkErrors1()
-            }
-
-        }
-        if (e.target.name === 'username') {
-            const validUser = UserValidation(e.target.value);
-
-            if (!validUser === true) {
-                checkErrorsUser()
-            } else {
-                checkErrorsUser1()
-            }
-
-        }
-        if (e.target.name === 'password') {
-            const validPassword = PasswordValidation(e.target.value);
-            if (!validPassword === true) {
-                checkErrorsPassword()
-            } else {
-                checkErrorsPassword1()
-            }
-
-        }
-
-    }
-
-    const checkErrors = () => {
-        login.email.showError = true
-    }
-    const checkErrors1 = () => {
-        login.email.showError = false
-    }
-    const checkErrorsUser = () => {
-        login.username.showError = true
-    }
-    const checkErrorsUser1 = () => {
-        login.username.showError = false
-    }
-
-    const checkErrorsPassword = () => {
-        login.password.showError = true
-    }
-    const checkErrorsPassword1 = () => {
-        login.password.showError = false
-    }
-
+    }  
     const OnSubmit = (e) => {
+        e.preventDefault()
         dispatch(submit(e, history))
 
     }
@@ -82,21 +32,7 @@ export default function AddForm(props) {
     const OnReset = () => {
         dispatch(reset())
     }
-    const emailValidation = value => (
-        (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)
-    );
-
-    const UserValidation = value => (
-        (/[a-zA-Z]/).test(value)
-
-
-    );
-
-    const PasswordValidation = value => (
-        (/[a-zA-Z0-9]/).test(value.length < 0)
-
-    );
-
+   
     const submitButtons = <button type='button' onClick={OnSubmit}>Submit</button>
     const Buttons = () => {
         if (!updates) {
@@ -108,9 +44,9 @@ export default function AddForm(props) {
         const name = Object.keys(login)[index]
         return (
             <div key={index}>
-                <form>
-                    <Logininput  {...{ label, type, value, name, error, showError }} onChange={handleChange} />
-                </form>
+                {/* <form> */}
+                <Logininput  {...{ label, type, value, name, error, showError }} onChange={handleChange} />
+                {/* </form> */}
             </div>
         )
     })
@@ -119,17 +55,13 @@ export default function AddForm(props) {
     return (
         <div>
             <h2>Redux Add Form</h2>
-            {UserDAta}
-
-            <br />
-
-            {Buttons()}
-            |
+            <form onSubmit={OnSubmit}>
+                {UserDAta}
+                <br />
+                {Buttons()}
             <button type='button' onClick={OnReset}>Reset</button>
-            |
-
             <button type='button' onClick={OnCancel}>Cancel</button>
-            
+            </form>
         </div>
     )
 }
