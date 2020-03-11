@@ -23,14 +23,14 @@ const initialState = {
             label: 'Password:',
             type: 'Password',
             value: '',
-            error: 'only character and number allow',
+            error: 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more',
             showError: false
         },
         conformPassword: {
             label: 'conformPassword:',
             type: 'Password',
             value: '',
-            error: 'enter conform password',
+            error: 'password is not match',
             showError: false
 
         }

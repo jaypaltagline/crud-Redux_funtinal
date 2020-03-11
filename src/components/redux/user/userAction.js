@@ -16,7 +16,7 @@ export const onChange = (payload) => {
 
         );
         const PasswordValidation = value => (
-            (/[a-zA-Z0-9]/).test(value.length < 0)
+            (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/).test(value)
 
         );
         const checkErrors = () => {
@@ -38,7 +38,15 @@ export const onChange = (payload) => {
         const checkErrorsPassword1 = () => {
             loginClone.password.showError = false
         }
-
+        const checkConformPassword = () => {
+            if(loginClone.conformPassword.value ===loginClone.password.value)
+            {
+                loginClone.conformPassword.showError = false
+            }
+            else{
+                loginClone.conformPassword.showError = true
+                       }
+    }
         if (name === 'email') {
             const validEmail = emailValidation(value);
 
@@ -60,7 +68,7 @@ export const onChange = (payload) => {
             }
 
         }
-        if (name === 'password') {
+        if (name === 'password' ) {
             const validPassword = PasswordValidation(value);
             if (!validPassword === true) {
                 checkErrorsPassword()
@@ -68,6 +76,9 @@ export const onChange = (payload) => {
                 checkErrorsPassword1()
             }
 
+        }
+        if (name === 'conformPassword' ) {
+            checkConformPassword();
         }
 
         dispatch({
@@ -120,26 +131,27 @@ export const submit = (payload, history) => {
             history.push('/')
         }
         else {
+
             if (login.username.value === '' && login.email.value === '' && login.password.value === '' && login.conformPassword.value === '') {
                 alert('please first fill all form information')
                 return;
             }
-            if (login.username.value !== '' && login.email.value === '' && login.password.value === '' && login.conformPassword.value === '') {
-                alert('please enter email,password and conform_password')
-                return;
-            }
-            if (login.email.showError && login.username.value === '') {
-                alert('please insert username and  valid email')
-                return;
-            }
-            if (login.email.value === '' && login.conformPassword.value === '') {
-                alert('please insert email and  conformPassword')
-                return;
-            }
-            if (login.username.value !== '' && login.email.value !== '' && login.password.value === '' && login.conformPassword.value === '') {
-                alert('please enter password and conform_password')
-                return;
-            }
+            // if (login.username.value !== '' && login.email.value === '' && login.password.value === '' && login.conformPassword.value === '') {
+            //     alert('please enter email,password and conform_password')
+            //     return;
+            // }
+            // if (login.email.showError && login.username.value === '') {
+            //     alert('please insert username and  valid email')
+            //     return;
+            // }
+            // if (login.email.value === '' && login.conformPassword.value === '') {
+            //     alert('please insert email and  conformPassword')
+            //     return;
+            // }
+            // if (login.username.value !== '' && login.email.value !== '' && login.password.value === '' && login.conformPassword.value === '') {
+            //     alert('please enter password and conform_password')
+            //     return;
+            // }
 
             // if (emails && login.username.value === '' ) {
             //     alert('please enter username and email already exist please enter different email')
@@ -149,12 +161,12 @@ export const submit = (payload, history) => {
                 alert('email already exist please enter different email')
                 return;
             }
-            if (!login.password.value === login.conformPassword.value) {
-                alert('password not match , please insert same password')
-            }
-            if (login.email.showError) {
-                alert('please insert valid email')
-            } if (login.username.value === '') {
+            // if (!login.password.value === login.conformPassword.value) {
+            //     alert('password not match , please insert same password')
+            // }
+            // if (login.email.showError) {
+            //     alert('please insert valid email')
+             if (login.username.value === '') {
                 alert('please insert username')
                 return;
             }
