@@ -22,58 +22,10 @@ export default function EditForm(props) {
 
     const handleChange = (e) => {
         dispatch(onChange({ name: e.target.name, value: e.target.value }))
-        if (e.target.name === 'email') {
-            const validEmail = emailValidation(e.target.value);
-
-            if (!validEmail === true) {
-                checkErrors()
-            } else {
-                checkErrors1()
-            }
-
-        }
-        if (e.target.name === 'username') {
-            const validUser = UserValidation(e.target.value);
-
-            if (!validUser === true) {
-                checkErrorsUser()
-            } else {
-                checkErrorsUser1()
-            }
-
-        }
-        if (e.target.name === 'password') {
-            const validPassword = PasswordValidation(e.target.value);
-            if (!validPassword === true) {
-                checkErrorsPassword()
-            } else {
-                checkErrorsPassword1()
-            }
-
-        }
-
+        
     }
 
-    const checkErrors = () => {
-        login.email.showError = true
-    }
-    const checkErrors1 = () => {
-        login.email.showError = false
-    }
-    const checkErrorsUser = () => {
-        login.username.showError = true
-    }
-    const checkErrorsUser1 = () => {
-        login.username.showError = false
-    }
-
-    const checkErrorsPassword = () => {
-        login.password.showError = true
-    }
-    const checkErrorsPassword1 = () => {
-        login.password.showError = false
-    }
-
+    
     const OnUpdate = (id) => {
         dispatch(update({id,history}))
     }
@@ -84,17 +36,7 @@ export default function EditForm(props) {
     const OnReset = () => {
         dispatch(reset())
     }
-    const emailValidation = value => (
-        (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(value)
-    );
-
-    const UserValidation = value => (
-        (/[a-zA-Z]/).test(value)
-    );
-
-    const PasswordValidation = value => (
-        (/[a-zA-Z0-9]/).test(value.length < 0)
-    );
+    
 const UserDAta = Object.values(login).map(({ label, type, value, error,msg ,showError }, index) => {
         const name = Object.keys(login)[index]
         return (

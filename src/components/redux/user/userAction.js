@@ -13,9 +13,7 @@ export const onChange = (payload) => {
         const res = Validation(name, value)
 
         loginClone[name].showError = !res
-
-
-        dispatch({
+         dispatch({
             type: ONCHANGE,
             payload: loginClone
         })
@@ -26,7 +24,7 @@ export const reset = (history) => {
     return (dispatch, getState) => {
         const userList = getState()
         let userDatas = userList.Users.loginForm
-        let userDatas1 = userList.Users.valueChange
+       // let userDatas1 = userList.Users.valueChange
         userDatas = {
             username: { ...userList.Users.loginForm.username, value: '' },
             email: { ...userList.Users.loginForm.email, value: '' },
@@ -82,7 +80,6 @@ export const submit = (payload, history) => {
             Object.values(login).forEach(({ value}, index) => {
                 const name = Object.keys(login)[index]
                 const tr = Validation(name, value)
-                console.log('tr', tr)
                 Object.values(login)[index].showError = !tr
                       
             })
