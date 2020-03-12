@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { onChange } from './redux/user/userAction';
+
 import { remove } from './redux/user/userAction';
 import { edit } from './redux/user/userAction';
 import { useHistory } from 'react-router-dom';
@@ -8,7 +8,7 @@ export default function LoginForm(props) {
 
     let userDataList = JSON.parse(localStorage.getItem('userLists'))
     let users = useSelector(state => state.Users.userList)
-    users  = userDataList;
+    //users = userDataList;
     const history = useHistory();
     const dispatch = useDispatch()
     const id = props.match.params.id
@@ -17,30 +17,26 @@ export default function LoginForm(props) {
 
 
         if (id !== undefined) {
-            dispatch(edit({ id,history,isId: true }))
+            dispatch(edit({ id, history, isId: true }))
         }
 
     }, [id])
 
-    const handleChange = (e) => {
-        dispatch(onChange({ name: e.target.name, value: e.target.value }))
-    }
-    
-        const OnEdit = (id) => {
+    const OnEdit = (id) => {
         history.push(`/edit/${id}`)
         dispatch(edit({ id, history, isId: true }))
 
     }
-    
+
     const OnDelete = (index) => {
 
-        dispatch(remove(index , history))
+        dispatch(remove(index, history))
 
     }
     const OnAdd = () => {
         history.push('/add')
     }
-        return (
+    return (
         <div>
             <h2>Redux Crud Demo Using Dynamic Form and Validation</h2>
             <br />
@@ -62,8 +58,9 @@ export default function LoginForm(props) {
                         <tbody>
                             {
                                 users.length > 0 && users.map((user, index) => {
-
+                            
                                     return <tr key={index}>
+
 
                                         <td>{user.username}</td>
                                         <td>{user.email}</td>

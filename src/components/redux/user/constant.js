@@ -6,3 +6,8 @@ export const EDIT = 'EDIT'
 export const UPDATE = 'UPDATE'
 export const RESET = 'RESET'
 export const FATCHUSERID = 'FATCHUSERID'
+// export const USERNAME = 'USERNAME'
+// export const EMAIL = 'EMAIL'
+// export const PASSWORd = 'PASSWORD'
+// export const CONFORMPASSWORD = 'CONFORMPASSWORD'
+

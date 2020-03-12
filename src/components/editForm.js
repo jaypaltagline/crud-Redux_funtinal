@@ -95,12 +95,12 @@ export default function EditForm(props) {
     const PasswordValidation = value => (
         (/[a-zA-Z0-9]/).test(value.length < 0)
     );
-const UserDAta = Object.values(login).map(({ label, type, value, error, showError }, index) => {
+const UserDAta = Object.values(login).map(({ label, type, value, error,msg ,showError }, index) => {
         const name = Object.keys(login)[index]
         return (
             <div key={index}>
                 <form>
-                    <Logininput  {...{ label, type, value, name, error, showError }} onChange={handleChange} />
+                    <Logininput  {...{ label, type, value, name, msg ,error, showError }} onChange={handleChange} />
                 </form>
             </div>
         )

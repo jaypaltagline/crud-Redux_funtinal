@@ -1,43 +1,41 @@
 import { ONCHANGE, SUBMIT, USERS_LIST, DELETE, EDIT, UPDATE, RESET } from './constant'
 const initialState = {
     userList: [],
+    isValid: false,
+    valueChange: false,
+
+    msg: 'fillUp all required fields',
     loginForm: {
         username: {
-            name: 'username',
-            label: 'username:',
             type: 'text',
             value: '',
             error: 'only string character allow',
             showError: false
         },
         email: {
-            name: 'email',
-            label: 'email:',
             type: 'text',
             value: '',
             error: ' email is not valid',
-            showError: false,
+            showError: false
         },
         password: {
-            password: 'password',
-            label: 'Password:',
             type: 'Password',
             value: '',
             error: 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more',
             showError: false
         },
         conformPassword: {
-            label: 'conformPassword:',
             type: 'Password',
             value: '',
             error: 'password is not match',
             showError: false
-
         }
-       
     },
     status: false,
     editHardReset: false
+
+
+
 }
 const UserReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -45,7 +43,8 @@ const UserReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                loginForm: action.payload
+                loginForm: action.payload,
+                valueChange: false
             }
         case USERS_LIST:
             return {
@@ -107,24 +106,7 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userList: action.payload,
-                loginForm: {
-                    username: {
-                        ...state.loginForm.username,
-                        value: ''
-                    },
-                    email: {
-                        ...state.loginForm.email,
-                        value: ''
-                    },
-                    password: {
-                        ...state.loginForm.password,
-                        value: ''
-                    },
-                    conformPassword: {
-                        ...state.loginForm.conformPassword,
-                        value: ''
-                    }
-                }
+                loginForm:action.login
             }
         default:
             return state;

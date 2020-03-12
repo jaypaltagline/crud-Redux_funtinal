@@ -6,10 +6,13 @@ import { submit } from './redux/user/userAction';
 import { edit } from './redux/user/userAction';
 import { reset } from './redux/user/userAction';
 import { useHistory } from 'react-router-dom';
-import { object } from 'prop-types';
+
 export default function AddForm(props) {
     const history = useHistory();
     const login = useSelector(state => state.Users.loginForm)
+    const isValidData = useSelector(state => state.Users.isValid)
+    const msgInfo = useSelector(state => state.Users.msg)
+    const valueChange = useSelector(state => state.Users.valueChange)
     const updates = useSelector(state => state.Users.status)
     const dispatch = useDispatch()
     const id = props.match.params.id
@@ -31,7 +34,7 @@ export default function AddForm(props) {
     }
 
     const OnReset = () => {
-        dispatch(reset())
+        dispatch(reset(history))
     }
 
     const submitButtons = <button type='button' onClick={OnSubmit}>Submit</button>
@@ -40,15 +43,25 @@ export default function AddForm(props) {
             return submitButtons
         }
     }
-const userData = Object.values(login).map(({ value, name, label, showError, error, type}, index) => {
- name = Object.keys(login)[index]
-        return <Logininput value={value} name={name} label={label} showError={showError} error={error} type={type} onChange={handleChange}  />
+    const userData = Object.values(login).map(({ value, showError, error, type }, index) => {
+       const name = Object.keys(login)[index]
+        return <Logininput 
+        key={index}
+         value={value}
+          name={name}
+           label={name}
+            showError={showError}
+             error={error}
+              type={type} onChange={handleChange} />
     })
     return (
         <div>
             <h2>Redux Add Form</h2>
             <form onSubmit={OnSubmit}>
                 {userData}
+                <br />
+
+                <label>{valueChange && !isValidData && msgInfo}</label>
                 <br />
                 {Buttons()}
                 <button type='button' onClick={OnReset}>Reset</button>
