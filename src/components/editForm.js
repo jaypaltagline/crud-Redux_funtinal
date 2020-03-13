@@ -42,7 +42,7 @@ const UserDAta = Object.values(login).map(({ label, type, value, error,msg ,show
         return (
             <div key={index}>
                 <form>
-                    <Logininput  {...{ label, type, value, name, msg ,error, showError }} onChange={handleChange} />
+                    <Logininput  {...{ label, type, value, name, msg ,error, showError }} onChange={handleChange} label={name} />
                 </form>
             </div>
         )

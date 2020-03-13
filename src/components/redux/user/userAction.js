@@ -88,10 +88,10 @@ export const submit = (payload, history) => {
             // if (login.username.value === '' && login.email.value === '' && login.password.value === '' && login.conformPassword.value === '') {
             //     state.Users.valueChange = true
             // }
-            // if (emails) {
-            //     alert('email already exist please enter different email')
-            //     return;
-            // }
+            if (emails) {
+                alert('email already exist please enter different email')
+                return;
+            }
         }
 
         dispatch({
