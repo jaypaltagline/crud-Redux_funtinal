@@ -4,7 +4,7 @@ const initialState = {
     isValid: false,
     valueChange: false,
 
-    msg: 'fillUp all required fields',
+    msg: 'email already taken',
     loginForm: {
         username: {
             type: 'text',
@@ -14,33 +14,27 @@ const initialState = {
         },
         email: {
             type: 'text',
-            value: '',
+            value: 's@gmail.com',
             error: ' email is not valid',
             showError: false
         },
         password: {
             type: 'Password',
-            value: '',
+            value: 'Pjaypal@123',
             error: 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more',
             showError: false
         },
         conformPassword: {
             type: 'Password',
-            value: '',
+            value: 'Pjaypal@123',
             error: 'password is not match',
             showError: false
         }
-    },
-    status: false,
-    editHardReset: false
-
-
-
+    }
 }
 const UserReducer = (state = initialState, action) => {
     switch (action.type) {
         case ONCHANGE:
-
             return {
                 ...state,
                 loginForm: action.payload,
@@ -51,13 +45,10 @@ const UserReducer = (state = initialState, action) => {
                 ...state
             }
         case RESET:
-            let active = state.status = false;
 
-            return {
+        return {
                 ...state,
-                active,
                 loginForm: action.payload
-
             }
         case DELETE:
 
@@ -67,39 +58,16 @@ const UserReducer = (state = initialState, action) => {
             }
         case UPDATE:
 
-            const s = state.status = false;
-
             return {
                 ...state,
                 userList: action.payload,
-                s,
-                loginForm: {
-                    username: {
-                        ...state.loginForm.username,
-                        value: ''
-                    },
-                    email: {
-                        ...state.loginForm.email,
-                        value: ''
-                    },
-                    password: {
-                        ...state.loginForm.password,
-                        value: ''
-                    },
-                    conformPassword: {
-                        ...state.loginForm.conformPassword,
-                        value: ''
-                    }
-                }
-
+               
             }
         case EDIT:
-            let actives = state.status = true;
 
             return {
                 ...state,
                 loginForm: action.payload,
-                actives
             }
         case SUBMIT:
 

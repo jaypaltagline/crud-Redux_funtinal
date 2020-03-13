@@ -30,6 +30,10 @@ export default function AddForm(props) {
 
     }
     const OnCancel = () => {
+        for (let index = 0; index < Object.values(login).length; index++) {
+            Object.values(login)[index].value = ''
+        }
+        
         history.push('/')
     }
 
@@ -43,7 +47,7 @@ export default function AddForm(props) {
             return submitButtons
         }
     }
-    const userData = Object.values(login).map(({ value, showError, error, type }, index) => {
+    const userData = Object.values(login).map(({ value,showError, error, type }, index) => {
        const name = Object.keys(login)[index]
         return <Logininput 
         key={index}
@@ -52,7 +56,8 @@ export default function AddForm(props) {
            label={name}
             showError={showError}
              error={error}
-              type={type} onChange={handleChange} />
+              type={type}
+              onChange={handleChange} />
     })
     return (
         <div>
@@ -60,8 +65,11 @@ export default function AddForm(props) {
             <form onSubmit={OnSubmit}>
                 {userData}
                 <br />
-
+                {/* <ul>
+                <li> */}
                 <label>{valueChange && !isValidData && msgInfo}</label>
+                {/* </li>
+                </ul> */}
                 <br />
                 {Buttons()}
                 <button type='button' onClick={OnReset}>Reset</button>

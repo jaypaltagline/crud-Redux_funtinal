@@ -13,7 +13,7 @@ export const onChange = (payload) => {
         const res = Validation(name, value)
 
         loginClone[name].showError = !res
-         dispatch({
+        dispatch({
             type: ONCHANGE,
             payload: loginClone
         })
@@ -24,15 +24,11 @@ export const reset = (history) => {
     return (dispatch, getState) => {
         const userList = getState()
         let userDatas = userList.Users.loginForm
-       // let userDatas1 = userList.Users.valueChange
-        userDatas = {
-            username: { ...userList.Users.loginForm.username, value: '' },
-            email: { ...userList.Users.loginForm.email, value: '' },
-            password: { ...userList.Users.loginForm.password, value: '' },
-            conformPassword: { ...userList.Users.loginForm.conformPassword, value: '' }
 
+        for (let index = 0; index < Object.values(userDatas).length; index++) {
+            Object.values(userDatas)[index].value = ''
         }
-        history.push('/add')
+
 
         dispatch({
             type: RESET,
@@ -45,20 +41,25 @@ export const submit = (payload, history) => {
     return (dispatch, getState) => {
         const state = getState()
         const login = { ...state.Users.loginForm }
-        const valueState = state.Users.valueChange
 
-        const clean = () => {
-            return login.username.value = '',
-                login.email.value = '',
-                login.password.value = '',
-                login.conformPassword.value = ''
-        }
+        let valueState = state.Users.valueChange
+        Object.values(login).forEach(({ value }, index) => {
+            const name = Object.keys(login)[index]
+            const tr = Validation(name, value)
+            Object.values(login)[index].showError = !tr
+
+        })
+
+        const hasError = Object.values(login).some(({ showError }) => showError)
+        console.log('hasError', hasError)
+
         let userSubmitData = state.Users.userList.slice()
         const emails = userSubmitData.find(({ email }) => email === login.email.value)
-        let hasError = true
-        hasError = Object.values(login).some(({ showError }) => showError)
 
-        if (!hasError && !emails && !login.email.showError && login.password.value === login.conformPassword.value && login.username.value !== '' && login.email.value !== '' && login.password.value !== '' && login.conformPassword.value !== '') {
+        if (emails) {
+            state.Users.valueChange = true
+        }
+        if (!hasError && !emails) {
 
             userSubmitData = [
                 ...userSubmitData,
@@ -68,29 +69,14 @@ export const submit = (payload, history) => {
                     email: login.email.value,
                     password: login.password.value,
                 }
+
             ]
 
             state.Users.valueChange = false
             localStorage.setItem('userLists', JSON.stringify(userSubmitData))
-            clean()
             history.push('/')
-        }
-        else {
-
-            Object.values(login).forEach(({ value}, index) => {
-                const name = Object.keys(login)[index]
-                const tr = Validation(name, value)
-                Object.values(login)[index].showError = !tr
-                      
-            })
-            
-            
-            // if (login.username.value === '' && login.email.value === '' && login.password.value === '' && login.conformPassword.value === '') {
-            //     state.Users.valueChange = true
-            // }
-            if (emails) {
-                alert('email already exist please enter different email')
-                return;
+            for (let index = 0; index < Object.values(login).length; index++) {
+                Object.values(login)[index].value = ''
             }
         }
 
@@ -98,9 +84,8 @@ export const submit = (payload, history) => {
             type: SUBMIT,
             payload: userSubmitData,
             login
-
-
         })
+
     }
 }
 export const update = (payload) => {

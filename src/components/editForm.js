@@ -30,6 +30,9 @@ export default function EditForm(props) {
         dispatch(update({id,history}))
     }
     const OnCancel = () => {
+        for (let index = 0; index < Object.values(login).length; index++) {
+            Object.values(login)[index].value = ''
+        }
         history.push('/')
     }
 
